@@ -1,9 +1,9 @@
 ﻿
 '''
-python3.8 -m pip install pandas dash
+python -m pip install pandas dash
 wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DS0321EN-SkillsNetwork/datasets/spacex_launch_dash.csv"
 wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DS0321EN-SkillsNetwork/labs/module_3/spacex_dash_app.py"
-python3.8 spacex_dash_app.py
+python spacex_dash_app.py
 '''
 # Import required libraries
 import pandas as pd
@@ -14,10 +14,10 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 
 # Read the airline data into pandas dataframe
-spacex_df = pd.read_csv("spacex_launch_dash.csv")
+spacex_df = pd.read_csv("data_dash.csv")
 max_payload = spacex_df['Payload Mass (kg)'].max()
 min_payload = spacex_df['Payload Mass (kg)'].min()
-
+print(spacex_df.tail(5))
 #---------------------------------------------------------------------------------
 # Create the dropdown menu options
 #Dropdown helper
@@ -78,7 +78,7 @@ def get_pie_chart(entered_site):
         fig = px.pie(data_frame=filtered_df,
             values='class',
             names= 'Launch Site')
-        fig.update_layout(title_text='Total Launches by Site Name(Florida: KSC,CCAFS; CALIFORNIA: VAFB)', title_x=0.5)
+        fig.update_layout(title_text='Total Launches by Site Name(Florida: KSC,CCAFS; CALIFORNIA: VAFB)', title_x=0.5, )
     else:
         filtered_df = spacex_df[spacex_df['Launch Site'] == entered_site]
         filtered_df = filtered_df.groupby(['class']).count().reset_index()
@@ -114,7 +114,7 @@ def success_payload_scatter_chart(selected_site,slider_range):
             x='Payload Mass (kg)',
             y='class',
             color='Booster Version Category',
-            color_continuous_scale='Inferno')
+            color_continuous_scale='Plotly3')
         scatter.update_layout(title_text='Correlation between Payload and Success for All Sites',
                             title_x=0.5,
                             plot_bgcolor='wheat')
@@ -126,7 +126,7 @@ def success_payload_scatter_chart(selected_site,slider_range):
             x='Payload Mass (kg)',
             y='class',
             color='Booster Version Category',
-            color_continuous_scale='Inferno')
+            color_continuous_scale='Plotly3')
         scatter.update_layout(title_text='Correlation between Payload and Success for Launch Site {}'.format(selected_site),
                             title_x=0.5,
                             plot_bgcolor='beige')
